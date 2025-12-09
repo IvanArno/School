@@ -1,0 +1,94 @@
+{% extends 'culture/base.html' %}
+{% load static %}
+{% load video_filters %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <a href="{% url 'performances' %}" class="btn" style="margin-bottom: 1rem;">← Назад к представлениям</a>
+    
+    <div class="card">
+        <div class="card-content">
+            <h1 style="color: #2c3e50; margin-bottom: 1rem;">{{ performance.title }}</h1>
+            
+            <!-- Только дата, без расположения и длительности -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <div style="background: #ecf0f1; padding: 0.5rem 1rem; border-radius: 4px;">
+                    📅 <strong>Дата события:</strong> {{ performance.date|date:"d.m.Y H:i" }}
+                </div>
+            </div>
+            
+            <!-- Видео секция -->
+            {% if performance.video_url or performance.video_file %}
+            <div style="margin: 2rem 0;">
+                <h3 style="color: #2c3e50; margin-bottom: 1rem;">Видео представления</h3>
+                
+                {% if performance.video_url %}
+                    {% if 'youtube.com' in performance.video_url or 'youtu.be' in performance.video_url %}
+                        <!-- YouTube видео -->
+                        <div class="video-container">
+                            <iframe 
+                                src="{{ performance.video_url|youtube_embed }}" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    {% elif 'vimeo.com' in performance.video_url %}
+                        <!-- Vimeo видео -->
+                        <div class="video-container">
+                            <iframe 
+                                src="{{ performance.video_url|vimeo_embed }}" 
+                                allow="autoplay; fullscreen; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    {% else %}
+                        <!-- Другое видео (простая ссылка) -->
+                        <div style="padding: 2rem; background: #f8f9fa; border-radius: 8px; text-align: center;">
+                            <p>Видео доступно по ссылке:</p>
+                            <a href="{{ performance.video_url }}" target="_blank" class="btn">
+                                Смотреть видео
+                            </a>
+                        </div>
+                    {% endif %}
+                
+                {% elif performance.video_file %}
+                    <!-- Загруженное видео -->
+                    <div class="video-container">
+                        <video controls>
+                            <source src="{{ performance.video_file.url }}" type="video/mp4">
+                            Ваш браузер не поддерживает воспроизведение видео.
+                            <a href="{{ performance.video_file.url }}">Скачать видео</a>
+                        </video>
+                    </div>
+                {% endif %}
+                
+                {% if performance.video_caption %}
+                <p style="margin-top: 0.5rem; color: #666; font-style: italic;">
+                    {{ performance.video_caption }}
+                </p>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <!-- Описание -->
+            <div style="margin: 2rem 0;">
+                <h3 style="color: #2c3e50; margin-bottom: 1rem;">Описание</h3>
+                <div style="line-height: 1.8; font-size: 1.1rem;">
+                    {{ performance.description|linebreaks }}
+                </div>
+            </div>
+            
+            <!-- Дополнительная информация -->
+            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                <h3 style="color: #2c3e50; margin-bottom: 1rem;">Информация</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                        <span style="position: absolute; left: 0;">📅</span>
+                        <strong>Дата добавления:</strong> {{ performance.created_at|date:"d.m.Y" }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

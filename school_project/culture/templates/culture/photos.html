@@ -1,0 +1,62 @@
+{% extends 'culture/base.html' %}
+
+{% block content %}
+    <h1 class="section-title">Фотографии</h1>
+    
+    <div class="category-buttons">
+        <button class="category-btn active" data-category="all">Все</button>
+        {% for category in categories %}
+        <button class="category-btn" data-category="{{ category.id }}">{{ category.name }}</button>
+        {% endfor %}
+    </div>
+    
+    <div class="grid" id="photos-grid">
+        {% for photo in photos %}
+        <div class="card photo-card" data-category="{% if photo.category %}{{ photo.category.id }}{% else %}none{% endif %}">
+            {% if photo.image %}
+            <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+            {% endif %}
+            <div class="card-content">
+                <h4>{{ photo.title }}</h4>
+                <p>{{ photo.description|truncatechars:100 }}</p>
+                {% if photo.category %}
+                <span style="background: #3498db; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.9rem;">
+                    {{ photo.category.name }}
+                </span>
+                {% endif %}
+                <p><small>Добавлено: {{ photo.uploaded_at|date:"d.m.Y" }}</small></p>
+            </div>
+        </div>
+        {% empty %}
+        <p>Фотографий пока нет.</p>
+        {% endfor %}
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.category-btn');
+            const photos = document.querySelectorAll('.photo-card');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Убираем активный класс со всех кнопок
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    // Добавляем активный класс нажатой кнопке
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    // Показываем/скрываем фотографии
+                    photos.forEach(photo => {
+                        const photoCategory = photo.getAttribute('data-category');
+                        if (category === 'all' || category === photoCategory) {
+                            photo.style.display = 'block';
+                        } else {
+                            photo.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}
