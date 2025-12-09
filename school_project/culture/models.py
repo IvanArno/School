@@ -26,7 +26,7 @@ class Performance(models.Model):
     video_url = models.URLField(
         blank=True, 
         null=True, 
-        help_text="Ссылка на видео YouTube/Vimeo (если есть)"
+        help_text="Ссылка на видео YouTube/Vimeo"
     )
     video_file = models.FileField(
         upload_to='videos/', 
@@ -34,24 +34,11 @@ class Performance(models.Model):
         null=True,
         help_text="Или загрузите видеофайл"
     )
-    video_caption = models.CharField(max_length=200, blank=True)
     
     created_at = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
         return self.title
-    
-    def get_video_type(self):
-        """Определяем тип видео"""
-        if self.video_url:
-            if 'youtube.com' in self.video_url or 'youtu.be' in self.video_url:
-                return 'youtube'
-            elif 'vimeo.com' in self.video_url:
-                return 'vimeo'
-            return 'external'
-        elif self.video_file:
-            return 'uploaded'
-        return None
 
 class Photo(models.Model):
     title = models.CharField(max_length=200)

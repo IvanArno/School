@@ -1,5 +1,4 @@
 {% extends 'culture/base.html' %}
-{% load static %}
 
 {% block content %}
     <section class="hero">
@@ -32,7 +31,6 @@
             {% for performance in performances %}
             <div class="card">
                 <div class="card-content">
-                    <!-- Иконка видео на главной -->
                     {% if performance.video_url or performance.video_file %}
                     <div style="position: absolute; top: 1rem; right: 1rem; background: #3498db; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
                         🎬 Видео
@@ -43,11 +41,7 @@
                     <p>{{ performance.description|truncatechars:100 }}</p>
                     <p><strong>Дата:</strong> {{ performance.date|date:"d.m.Y H:i" }}</p>
                     <a href="{% url 'performance_detail' performance.pk %}" class="btn" style="margin-top: 0.5rem;">
-                        {% if performance.video_url or performance.video_file %}
-                        Смотреть видео
-                        {% else %}
                         Подробнее
-                        {% endif %}
                     </a>
                 </div>
             </div>

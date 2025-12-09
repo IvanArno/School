@@ -7,7 +7,6 @@
         {% for performance in performances %}
         <div class="card">
             <div class="card-content">
-                <!-- Иконка видео, если есть -->
                 {% if performance.video_url or performance.video_file %}
                 <div style="position: absolute; top: 1rem; right: 1rem; background: #3498db; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
                     🎬 Видео
@@ -17,49 +16,16 @@
                 <h3>{{ performance.title }}</h3>
                 <p>{{ performance.description|truncatechars:150 }}</p>
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                    <div>
-                        <p style="margin-bottom: 0.5rem;">
-                            <strong>📅 {{ performance.date|date:"d.m.Y" }}</strong>
-                        </p>
-                        <p style="color: #666; font-size: 0.9rem;">
-                            {{ performance.date|date:"H:i" }}
-                        </p>
-                    </div>
+                <div style="margin-top: 1rem;">
+                    <p><strong>📅 {{ performance.date|date:"d.m.Y H:i" }}</strong></p>
                     <a href="{% url 'performance_detail' performance.pk %}" class="btn">
-                        {% if performance.video_url or performance.video_file %}
-                        Смотреть видео
-                        {% else %}
                         Подробнее
-                        {% endif %}
                     </a>
                 </div>
-                
-                <!-- Иконки для быстрого просмотра типа видео -->
-                {% if performance.video_url %}
-                    {% if 'youtube.com' in performance.video_url or 'youtu.be' in performance.video_url %}
-                    <div style="margin-top: 0.5rem;">
-                        <span style="background: #ff0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;">
-                            YouTube
-                        </span>
-                    </div>
-                    {% elif 'vimeo.com' in performance.video_url %}
-                    <div style="margin-top: 0.5rem;">
-                        <span style="background: #1ab7ea; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;">
-                            Vimeo
-                        </span>
-                    </div>
-                    {% endif %}
-                {% endif %}
             </div>
         </div>
         {% empty %}
-        <div class="card">
-            <div class="card-content" style="text-align: center; padding: 3rem;">
-                <h3>Представлений пока нет</h3>
-                <p>Скоро здесь появятся видео с наших мероприятий!</p>
-            </div>
-        </div>
+        <p>Представлений пока нет.</p>
         {% endfor %}
     </div>
 {% endblock %}

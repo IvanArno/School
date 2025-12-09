@@ -19,14 +19,7 @@ def performances_list(request):
 
 def performance_detail(request, pk):
     performance = get_object_or_404(Performance, pk=pk)
-    
-    # Получаем похожие представления (по дате)
-    similar_performances = Performance.objects.exclude(pk=pk).order_by('-date')[:3]
-    
-    return render(request, 'culture/performance_detail.html', {
-        'performance': performance,
-        'similar_performances': similar_performances
-    })
+    return render(request, 'culture/performance_detail.html', {'performance': performance})
 
 def photos_list(request):
     photos = Photo.objects.all().order_by('-uploaded_at')
