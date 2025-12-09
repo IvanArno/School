@@ -19,13 +19,18 @@
                 <div style="margin-top: 1rem;">
                     <p><strong>📅 {{ performance.date|date:"d.m.Y H:i" }}</strong></p>
                     <a href="{% url 'performance_detail' performance.pk %}" class="btn">
-                        Подробнее
+                        ▶ Смотреть видео
                     </a>
                 </div>
             </div>
         </div>
         {% empty %}
-        <p>Представлений пока нет.</p>
+        <div class="card">
+            <div class="card-content" style="text-align: center; padding: 3rem;">
+                <h3>Представлений пока нет</h3>
+                <p>Скоро здесь появятся новые видео</p>
+            </div>
+        </div>
         {% endfor %}
     </div>
 {% endblock %}

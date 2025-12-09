@@ -26,13 +26,13 @@ class Performance(models.Model):
     video_url = models.URLField(
         blank=True, 
         null=True, 
-        help_text="Ссылка на видео YouTube/Vimeo"
+        help_text="Ссылка на YouTube видео (например: https://www.youtube.com/watch?v=VIDEO_ID)"
     )
     video_file = models.FileField(
         upload_to='videos/', 
         blank=True, 
         null=True,
-        help_text="Или загрузите видеофайл"
+        help_text="Загрузите видео в формате MP4 (рекомендуется)"
     )
     
     created_at = models.DateTimeField(default=timezone.now)

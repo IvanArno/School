@@ -31,6 +31,7 @@
             {% for performance in performances %}
             <div class="card">
                 <div class="card-content">
+                    <!-- Иконка видео на главной -->
                     {% if performance.video_url or performance.video_file %}
                     <div style="position: absolute; top: 1rem; right: 1rem; background: #3498db; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
                         🎬 Видео
@@ -40,9 +41,16 @@
                     <h3>{{ performance.title }}</h3>
                     <p>{{ performance.description|truncatechars:100 }}</p>
                     <p><strong>Дата:</strong> {{ performance.date|date:"d.m.Y H:i" }}</p>
-                    <a href="{% url 'performance_detail' performance.pk %}" class="btn" style="margin-top: 0.5rem;">
-                        Подробнее
-                    </a>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <a href="{% url 'performance_detail' performance.pk %}" class="btn">
+                            Подробнее
+                        </a>
+                        {% if performance.video_url or performance.video_file %}
+                        <a href="{% url 'performance_detail' performance.pk %}" class="btn" style="background: #e74c3c;">
+                            ▶ Смотреть видео
+                        </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             {% endfor %}
