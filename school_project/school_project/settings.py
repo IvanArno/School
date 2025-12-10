@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e=b2$j4k*00zvqf!774tnk2x43wpvcgqvh_s41r1(z)8qki5qb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['school-project.loca.lt']
 
 
 # Application definition
